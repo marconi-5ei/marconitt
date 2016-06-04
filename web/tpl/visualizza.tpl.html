@@ -1,0 +1,79 @@
+<style type="text/css">
+	md-select-value span {
+		max-height: 30px !important;
+		line-height: 30px !important;
+		color: white !important;
+		white-space: nowrap !important;
+		overflow: scroll !important;
+		text-overflow: ellipsis !important;
+		overflow: -moz-scrollbars-none !important;
+		-ms-overflow-style: none !important;
+	}
+
+	html {
+	}
+
+	::-webkit-scrollbar { 
+	    display: none; 
+	}
+
+	.badge1 {
+	   position:relative;
+	}
+	.badge1[data-badge]:after {
+	   content:attr(data-badge);
+	   position:absolute;
+	   top:-10px;
+	   right:-10px;
+	   font-size:.7em;
+	   background:green;
+	   color:white;
+	   width:18px;height:18px;
+	   text-align:center;
+	   line-height:18px;
+	   border-radius:50%;
+	   box-shadow:0 0 1px #333;
+	}
+
+</style>
+
+<div ng-controller="ViewCtrl" ng-init="getData()" layout-fill  style="height: 100% !important;">
+<md-toolbar>
+	<div class="md-toolbar-tools" >
+		<md-button class="md-icon-button" aria-label="Open sidenav" ng-click="toggleLeft()" hide-gt-md>
+			<i class="material-icons">menu</i>
+		</md-button>
+		<h2>
+			<span>{{ tool }}</span>
+		</h2>
+		<span flex=""></span>
+		<md-button class="md-icon-button" aria-label="Open sidenav" ng-show="tool=='Visualizza'" ng-click="toggleLayout()">
+			<i class="material-icons">view_agenda</i>
+		</md-button>
+		<md-button class="md-icon-button" aria-label="Open sidenav" ng-show="tool=='Visualizza'" ng-click="setContentViaService()">
+			<i class="material-icons">plus_one</i>
+		</md-button>
+		<md-button class="md-icon-button" aria-label="Open sidenav" ng-show="tool=='Visualizza'" ng-click="today()">
+			<i class="material-icons">today</i>
+		</md-button>
+      
+	      <md-input-container>
+	        <md-select ng-model="ctrl.userState" multiple>
+	          <md-option value="aaaa">
+	            aaaaaa
+	          </md-option>
+	          <md-option value="bbbb">
+	            bbbb
+	          </md-option>
+	          <md-option value="cccc">
+	            cccc
+	          </md-option>
+	        </md-select>
+	      </md-input-container>
+	</div>
+</md-toolbar>
+<md-content layout="row" style="height: calc(100% - 64px) !important;" layout-fill compile="calendar">
+</md-content>
+<div flex></div>
+</div>
+

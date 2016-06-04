@@ -1,0 +1,88 @@
+<div ng-controller="InsertCtrl" style="height: 100% !important;">
+
+<style type="text/css">
+
+.selectdemoSelectHeader {
+  /* Please note: All these selectors are only applied to children of elements with the 'selectdemoSelectHeader' class */ }
+  .selectdemoSelectHeader .demo-header-searchbox {
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    padding: 0; }
+  .selectdemoSelectHeader .demo-select-header {
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(0, 0, 0, 0.12);
+    padding-left: 10.667px;
+    height: 48px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: auto; }
+  .selectdemoSelectHeader md-content._md {
+    max-height: 240px; }
+</style>
+
+<md-toolbar>
+	<div class="md-toolbar-tools" >
+		<md-button class="md-icon-button" aria-label="Open sidenav" ng-click="toggleLeft()" hide-gt-md>
+			<i class="material-icons">menu</i>
+		</md-button>
+		<h2>
+			<span>{{ tool }}</span>
+		</h2>
+		<span flex=""></span>
+		<md-button class="md-icon-button" aria-label="Open sidenav" ng-show="tool=='Visualizza'" ng-click="toggleLayout()">
+			<i class="material-icons">view_agenda</i>
+		</md-button>	
+
+	</div>
+</md-toolbar>
+<md-content layout="row" style="height: 100% !important;" layout-align="center center">
+	 <form name="userForm">
+        <div layout-gt-xs="row">
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>Company (Disabled)</label>
+            <input ng-model="user.company">
+          </md-input-container>
+          <md-datepicker ng-model="user.submissionDate" md-date-filter="noSunday" md-placeholder="Seleziona data" multi-select="true">
+          </md-datepicker>
+        </div>
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <mdp-time-picker ng-model="currentTime"></mdp-time-picker>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <mdp-time-picker ng-model="currentTime"></mdp-time-picker>
+          </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>State</label>
+            <md-select ng-model="selectedToppings" multiple data-md-container-class="selectdemoSelectHeader" md-on-close="clearSearchTerm()">
+
+                <md-select-header class="demo-select-header">
+                <input ng-model="searchTerm"
+                       type="search"
+                       placeholder="Search for a vegetable.."
+                       class="demo-header-searchbox md-text">
+              </md-select-header>
+
+              <md-optgroup label="Meats">
+                <md-option ng-value="topping.name" ng-repeat="topping in toppings | filter: {category: 'meat' } |filter:searchTerm">{{topping.name}}</md-option>
+              </md-optgroup>
+              <md-optgroup label="Veggies">
+                <md-option ng-value="topping.name" ng-repeat="topping in toppings | filter: {category: 'veg' }">{{topping.name}}</md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+        </div>
+        <md-input-container class="md-block">
+          <label>Biography</label>
+          <input ng-model="day.company">
+        </md-input-container>
+      </form>
+</md-content>
+<div flex></div>
+</div>
+
