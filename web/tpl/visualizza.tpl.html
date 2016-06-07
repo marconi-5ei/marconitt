@@ -17,22 +17,10 @@
 	    display: none; 
 	}
 
-	.badge1 {
-	   position:relative;
-	}
-	.badge1[data-badge]:after {
-	   content:attr(data-badge);
-	   position:absolute;
-	   top:-10px;
-	   right:-10px;
-	   font-size:.7em;
-	   background:green;
-	   color:white;
-	   width:18px;height:18px;
-	   text-align:center;
-	   line-height:18px;
-	   border-radius:50%;
-	   box-shadow:0 0 1px #333;
+	md-button.md-minimini {
+		line-height: 20px;
+	    width: 20px;
+	    height: 20px;
 	}
 
 </style>
@@ -72,7 +60,22 @@
 	      </md-input-container>
 	</div>
 </md-toolbar>
-<md-content layout="row" style="height: calc(100% - 64px) !important;" layout-fill compile="calendar">
+<md-content layout="row" style="height: calc(100% - 64px) !important;" layout-fill>
+	<calendar-md flex layout-fill
+	    calendar-direction="direction"
+	    on-prev-month="prevMonth"
+	    on-next-month="nextMonth"
+	    on-day-click="dayClick"
+	    title-format="'MMMM y'"
+	    ng-model='selectedDate'
+	    week-starts-on="1"
+	    day-format="dayFormat"
+	    day-label-format="'EEE'"
+	    day-label-tooltip-format="'EEEE'"
+	    day-tooltip-format="'fullDate'"
+	    day-content=""
+	    disable-future-selection="false"
+	    style="height: calc(100% - 46px) !important;"></calendar-md>
 </md-content>
 <div flex></div>
 </div>

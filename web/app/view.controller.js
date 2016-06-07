@@ -3,24 +3,27 @@ app
     $scope.direction = "horizontal";
     $scope.selectedDate = [];
 
-    $scope.currentMonth = new Date().getMonth();
+    $scope.currentMonth = new Date().getMonth()+1;
 
     $scope.events = {};
 
     $scope.calendar = '';
-
+    //MaterialCalendarData.setDayContent(today, '<span> :oD </span>')
     var getData = function() {
         var req = {
             method: 'GET',
-            url: 'http://vps226037.ovh.net:8080/api/month/'+ $scope.currentMonth,
+            //url: 'http://vps226037.ovh.net:8080/api/month/'+ $scope.currentMonth,
+            url: 'http://localhost:8080/api/month/'+ (parseInt($scope.currentMonth)-1),
         }
         $http(req)
             .then(
                 function(data){
                   console.log(data);
                     $scope.events = data.data;
-                    console.log(new Date($scope.events[0].date));
-                    if ($scope.calendar == '') drawCalendar();
+                    //console.log("Chiamata ok");
+                    //console.log(new Date($scope.events[0].date));
+                    //if ($scope.calendar == '') drawCalendar();
+                    setContents();
                 },
                 function(err){
                     console.log(err);
@@ -28,7 +31,7 @@ app
                 }
             );
     }
-
+/*
     var drawCalendar = function() {
       $scope.calendar = ' <calendar-md flex layout-fill\
         calendar-direction="direction"\
@@ -44,9 +47,9 @@ app
         day-tooltip-format="\'fullDate\'"\
         day-content="setDayContent"\
         disable-future-selection="false"\
-        style="height: 100% !important;"\
+        style="height: calc(100% - 46px) !important;"\
       ></calendar-md>';
-    }
+    }*/
 
     $scope.toggleLayout = function() {
       $scope.direction = $scope.direction === "vertical" ? "horizontal" : "vertical";
@@ -64,7 +67,18 @@ app
         return num;
     };
 
-    $scope.setDayContent = function(date) {
+    var setContents = function() {
+        var eventsN = new Array();
+        $scope.events.forEach(function(event) {
+            eventsN[event.date] = (eventsN[event.date] || 0) + 1;
+        });
+        Object.keys(eventsN).forEach(function (key) {
+            MaterialCalendarData.setDayContent(new Date(key), "<md-button class=\"md-fab md-mini md-minimini\" aria-label=\"Eat cake\">"+eventsN[key]+"</md-button>");//eventsN[key]);
+        });
+        //console.log("-----------------------");
+    }
+
+    /*$scope.setDayContent = function(date) {
         loadContentAsync = true;
         var counter = 0;
         var str = "";
@@ -75,14 +89,10 @@ app
             }
         });
         return str;
-    };
+    };*/
 
     $scope.dayClick = function(date) {
     };
-
-    $scope.today = function() {
-
-    }
 
     $scope.openMenu = function($mdOpenMenu, ev) {
       originatorEv = ev;
@@ -92,12 +102,12 @@ app
     $scope.prevMonth = function(month) {
         $scope.currentMonth = month.month;
         getData();
-        console.log(month);
+        console.log(month.month);
     }
     $scope.nextMonth = function(month) {
         $scope.currentMonth = month.month;
         getData();
-        console.log(month);
+        console.log(month.month);
     }
 
     getData();
