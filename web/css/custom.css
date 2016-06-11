@@ -1,0 +1,35 @@
+.md-tiny {
+	height: 25px;
+	width: 25px;
+	min-height: 25px;
+	min-width: 25px;
+	max-height: 25px;
+	max-width: 25px;
+	line-height: 25px !important;
+	font-size: 14px;
+	padding: 0;
+
+}
+.md-tiny span {
+	color: white;
+	font-weight: bold;
+}
+md-select-value span {
+	max-height: 30px !important;
+	line-height: 30px !important;
+	color: white !important;
+	white-space: nowrap !important;
+	overflow: scroll !important;
+	text-overflow: ellipsis !important;
+	overflow: -moz-scrollbars-none !important;
+	-ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+.type1 {
+	background-color: red !important;
+}
+

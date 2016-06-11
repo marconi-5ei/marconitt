@@ -6,5 +6,6 @@ module.exports = mongoose.model('Day', new Schema({
 	hour_start: Number,
 	hour_end: Number,
 	description: String,
-	who: [Schema.Types.ObjectId]
+	who: [Schema.Types.ObjectId],
+	type: Number
 }));

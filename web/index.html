@@ -6,31 +6,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="node_modules/angular-material-calendar/dist/angular-material-calendar.min.css"/>
     <link rel="stylesheet" href="vendor/mdPickers.css"/>
+    <link rel="stylesheet" href="css/custom.css"/>
     <meta name="theme-color" content="#2196F3">
     <title>Marconi TT</title>
 </head>
-    <body ng-app="BiblioMarconi" layout="row" ng-cloak ng-controller="MainCtrl">
-
-		<!--<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open='true'>
-			<md-toolbar class="md-theme-indigo">
-				<h1 class="md-toolbar-tools">Biblioteca</h1>
-			</md-toolbar>
-			<md-content layout-padding>
-				<md-button ng-click="close()" class="md-primary" hide-gt-md>
-					Close Sidenav Left
-				</md-button>
-				<p hide-md show-gt-md>
-					This sidenav is locked open on your device. To go back to the default behavior,narrow your display.
-				</p>
-			</md-content>
-		</md-sidenav>
-
-		<md-content flex layout="column">
-			<ng-view>
-				View Content
-			</ng-view>
-		</md-content>-->
-
+    <body ng-app="MarconiTT" layout="row" ng-cloak ng-controller="MainCtrl">
 		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
 			<md-toolbar class="md-primary" style="height: 200px; background-image: url(img/marconitt.png); background-repeat: no-repeat; background-position: center center; background-color: transparent; background-size: 50%;">				
 			</md-toolbar>
@@ -76,7 +56,6 @@
     <script src="node_modules/moment/moment.js"></script>
     <script src="vendor/mdPickers.js"></script>
     <script src="app/app.js"></script>
-    <script src="app/compile.directive.js"></script>
     <script src="app/main.controller.js"></script>
     <script src="app/view.controller.js"></script>
     <script src="app/insert.controller.js"></script>

@@ -1,12 +1,12 @@
 
 var app = angular
-  .module('BiblioMarconi', ['ngMaterial','materialCalendar','mdPickers']);
+  .module('MarconiTT', ['ngMaterial','materialCalendar','mdPickers']);
 
 app
   .config(function($mdThemingProvider, $mdDateLocaleProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue', {
-      'default': '500', // by default use shade 400 from the pink palette for primary intentions
+      'default': '500',
       'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
       'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
       'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
@@ -18,13 +18,13 @@ app
     });
 
 
-    $mdDateLocaleProvider.months = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
-    $mdDateLocaleProvider.shortMonths = ['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
-    $mdDateLocaleProvider.days = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
+    $mdDateLocaleProvider.months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+    $mdDateLocaleProvider.shortMonths = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+    $mdDateLocaleProvider.days = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
     $mdDateLocaleProvider.shortDays = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
     $mdDateLocaleProvider.firstDayOfWeek = 1;
     $mdDateLocaleProvider.weekNumberFormatter = function(weekNumber) {
-    return 'Settimana ' + weekNumber;
+      return 'Settimana ' + weekNumber;
     };
     $mdDateLocaleProvider.msgCalendar = 'Calendario';
     $mdDateLocaleProvider.msgOpenCalendar = 'Apri il calendario';

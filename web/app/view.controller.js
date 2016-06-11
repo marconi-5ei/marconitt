@@ -2,27 +2,26 @@ app
   .controller('ViewCtrl', function ($scope, $timeout, $mdSidenav, $log, $filter, $http, MaterialCalendarData, $q, $mdToast) {
     $scope.direction = "horizontal";
     $scope.selectedDate = [];
+    $scope.options = {};
+    $scope.options.types = [];
 
     $scope.currentMonth = new Date().getMonth()+1;
+    $scope.currentYear = new Date().getFullYear();
 
     $scope.events = {};
 
     $scope.calendar = '';
-    //MaterialCalendarData.setDayContent(today, '<span> :oD </span>')
     var getData = function() {
         var req = {
             method: 'GET',
             //url: 'http://vps226037.ovh.net:8080/api/month/'+ $scope.currentMonth,
-            url: 'http://localhost:8080/api/month/'+ (parseInt($scope.currentMonth)-1),
+            url: 'http://localhost:8080/api/events/'+ parseInt($scope.currentYear) +"/"+ (parseInt($scope.currentMonth)-1)
         }
         $http(req)
             .then(
                 function(data){
                   console.log(data);
                     $scope.events = data.data;
-                    //console.log("Chiamata ok");
-                    //console.log(new Date($scope.events[0].date));
-                    //if ($scope.calendar == '') drawCalendar();
                     setContents();
                 },
                 function(err){
@@ -31,25 +30,6 @@ app
                 }
             );
     }
-/*
-    var drawCalendar = function() {
-      $scope.calendar = ' <calendar-md flex layout-fill\
-        calendar-direction="direction"\
-        on-prev-month="prevMonth"\
-        on-next-month="nextMonth"\
-        on-day-click="dayClick"\
-        title-format="\'MMMM y\'"\
-        ng-model=\'selectedDate\'\
-        week-starts-on="1"\
-        day-format="dayFormat"\
-        day-label-format="\'EEE\'"\
-        day-label-tooltip-format="\'EEEE\'"\
-        day-tooltip-format="\'fullDate\'"\
-        day-content="setDayContent"\
-        disable-future-selection="false"\
-        style="height: calc(100% - 46px) !important;"\
-      ></calendar-md>';
-    }*/
 
     $scope.toggleLayout = function() {
       $scope.direction = $scope.direction === "vertical" ? "horizontal" : "vertical";
@@ -67,13 +47,40 @@ app
         return num;
     };
 
+    $scope.selectOptions = function() {
+        flushCalendar();
+        setContents();
+    }
+
+    var flushCalendar = function() {
+        var date = new Date($scope.currentYear, $scope.currentMonth-1, 1);
+        var days = [];
+        while (date.getMonth() == parseInt($scope.currentMonth-1)) {
+            MaterialCalendarData.setDayContent(date, " ");
+            date.setDate(date.getDate() + 1);
+        }
+    }
+
     var setContents = function() {
         var eventsN = new Array();
         $scope.events.forEach(function(event) {
-            eventsN[event.date] = (eventsN[event.date] || 0) + 1;
+            if ($scope.options.types.indexOf(""+event.type) > -1) {
+            //eventsN[event.date] = (eventsN[event.date] || 0) + 1;
+            try {
+                eventsN[event.date][event.type] = (eventsN[event.date][event.type] || 0) + 1;
+            } catch(e) {
+                eventsN[event.date] = {};
+                eventsN[event.date][event.type] = 1;
+            }
+        }
         });
         Object.keys(eventsN).forEach(function (key) {
-            MaterialCalendarData.setDayContent(new Date(key), "<md-button class=\"md-fab md-mini md-minimini\" aria-label=\"Eat cake\">"+eventsN[key]+"</md-button>");//eventsN[key]);
+            var html = ""
+            Object.keys(eventsN[key]).forEach(function (typekey) {
+                html += "<md-button class=\"md-fab md-mini md-tiny type"+typekey+"\" aria-label=\"Events\">"+eventsN[key][typekey]+"</md-button>";
+                //MaterialCalendarData.setDayContent(new Date(key), "<md-button class=\"md-fab md-mini md-tiny type"+typekey+"\" aria-label=\"Events\">"+eventsN[key][typekey]+"</md-button>");//eventsN[key]);
+            });
+            MaterialCalendarData.setDayContent(new Date(key), html);
         });
         //console.log("-----------------------");
     }

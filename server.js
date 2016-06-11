@@ -18,7 +18,7 @@ var Who    = require('./app/models/who');
 // =======================
 var port = process.env.PORT || 8080; // used to create, sign, and verify tokens
 mongoose.connect(config.database); // connect to database
-app.set('diegodalboscomarconitt', config.secret); // secret variable
+app.set('secret', config.secret); // secret variable
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -72,11 +72,64 @@ app.get('/setup', function(req, res) {
     res.json({ success: true });
   });*/
 
+ // Day.remove({},function(a) {console.log("ok")});
+
   var d = new Day({
-    description: "XYZ altro evento",
+    description: "Seconda prova",
     hour_start: 12,
     hour_end: 12.15,
-    date: new Date(2016,4,19),
+    type: 0,
+    date: new Date(2016,5,22),
+    who: ['5740ad60a543dc300f0d77b1']
+  });
+
+  d.save(function(err,day) {
+    if (err) throw err;
+
+    console.log('Day saved successfully '+day.id);
+    res.json(day);
+  });
+
+  var d = new Day({
+    description: "aula magna",
+    hour_start: 12,
+    hour_end: 12.15,
+    type: 0,
+    date: new Date(2016,5,19),
+    who: ['5740ad60a543dc300f0d77b1']
+  });
+
+  d.save(function(err,day) {
+    if (err) throw err;
+
+    console.log('Day saved successfully '+day.id);
+    res.json(day);
+  });
+
+
+  var d = new Day({
+    description: "Verifciad sadhahsdhada",
+    hour_start: 12,
+    hour_end: 12.15,
+    type: 1,
+    date: new Date(2016,5,19),
+    who: ['5740ad60a543dc300f0d77b1']
+  });
+
+  d.save(function(err,day) {
+    if (err) throw err;
+
+    console.log('Day saved successfully '+day.id);
+    res.json(day);
+  });
+
+
+  var d = new Day({
+    description: "Prima prova",
+    hour_start: 12,
+    hour_end: 12.15,
+    type: 0,
+    date: new Date(2016,5,21),
     who: ['5740ad60a543dc300f0d77b1']
   });
 
@@ -131,7 +184,7 @@ apiRoutes.post('/authenticate', function(req, res) {
 
         // if user is found and password is right
         // create a token
-        var token = jwt.sign(user, app.get('diegodalboscomarconitt'), {
+        var token = jwt.sign(user, app.get('secret'), {
           expiresInMinutes: 1440 // expires in 24 hours
         });
 
@@ -154,15 +207,23 @@ apiRoutes.get('/', function(req, res) {
   res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 
-  apiRoutes.get('/month/:month', function(req, res) {
-    var m = parseInt(req.params.month);console.log(m);
-    var date = new Date(), y = date.getFullYear();
+  apiRoutes.get('/events/:year/:month', function(req, res) {
+    var y = parseInt(req.params.year);
+    var m = parseInt(req.params.month);
     var start = new Date(y, m, 1);
     var end = new Date(y, m + 1, 0);
-    console.log(start);
-    console.log(end);
-    Day.find({date: {$gte: start, $lt: end}}, function(err, month) {
-      res.json(month);
+    Day.find({date: {$gte: start, $lt: end}}, function(err, events) {
+      res.json(events);
+    });
+  });
+
+  apiRoutes.get('/events/:year/:month/:day', function(req, res) {
+    var m = parseInt(req.params.month);
+    var y = parseInt(req.params.year);
+    var d = parseInt(req.params.day);
+    var day = new Date(y, m, d);
+    Day.find({date: day}, function(err, events) {
+      res.json(events);
     });
   });
 
@@ -176,7 +237,7 @@ apiRoutes.use(function(req, res, next) {
   if (token) {
 
     // verifies secret and checks exp
-    jwt.verify(token, app.get('diegodalboscomarconitt'), function(err, decoded) {      
+    jwt.verify(token, app.get('secret'), function(err, decoded) {      
       if (err) {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {

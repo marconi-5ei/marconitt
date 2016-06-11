@@ -1,30 +1,3 @@
-<style type="text/css">
-	md-select-value span {
-		max-height: 30px !important;
-		line-height: 30px !important;
-		color: white !important;
-		white-space: nowrap !important;
-		overflow: scroll !important;
-		text-overflow: ellipsis !important;
-		overflow: -moz-scrollbars-none !important;
-		-ms-overflow-style: none !important;
-	}
-
-	html {
-	}
-
-	::-webkit-scrollbar { 
-	    display: none; 
-	}
-
-	md-button.md-minimini {
-		line-height: 20px;
-	    width: 20px;
-	    height: 20px;
-	}
-
-</style>
-
 <div ng-controller="ViewCtrl" ng-init="getData()" layout-fill  style="height: 100% !important;">
 <md-toolbar>
 	<div class="md-toolbar-tools" >
@@ -34,33 +7,20 @@
 		<h2>
 			<span>{{ tool }}</span>
 		</h2>
-		<span flex=""></span>
-		<md-button class="md-icon-button" aria-label="Open sidenav" ng-show="tool=='Visualizza'" ng-click="toggleLayout()">
-			<i class="material-icons">view_agenda</i>
-		</md-button>
-		<md-button class="md-icon-button" aria-label="Open sidenav" ng-show="tool=='Visualizza'" ng-click="setContentViaService()">
-			<i class="material-icons">plus_one</i>
-		</md-button>
-		<md-button class="md-icon-button" aria-label="Open sidenav" ng-show="tool=='Visualizza'" ng-click="today()">
-			<i class="material-icons">today</i>
-		</md-button>
-      
+		<span flex=""></span>      
 	      <md-input-container>
-	        <md-select ng-model="ctrl.userState" multiple>
-	          <md-option value="aaaa">
-	            aaaaaa
+	        <md-select ng-model="options.types" ng-change="selectOptions()" multiple>
+	          <md-option value="1">
+	            Spaggiari
 	          </md-option>
-	          <md-option value="bbbb">
-	            bbbb
-	          </md-option>
-	          <md-option value="cccc">
-	            cccc
+	          <md-option value="0">
+	            Altro
 	          </md-option>
 	        </md-select>
 	      </md-input-container>
 	</div>
 </md-toolbar>
-<md-content layout="row" style="height: calc(100% - 64px) !important;" layout-fill>
+<md-content layout="row" style="height: calc(100% - 64px) !important;">
 	<calendar-md flex layout-fill
 	    calendar-direction="direction"
 	    on-prev-month="prevMonth"
