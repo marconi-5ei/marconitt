@@ -17,7 +17,8 @@ app
             var req = {
                 method: 'GET',
                 //url: 'http://vps226037.ovh.net:8080/api/month/'+ $scope.currentMonth,
-                url: 'http://localhost:8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1)
+                //url: 'http://localhost:8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1)
+                url: 'http://vps226037.ovh.net:8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1)
             }
             $http(req)
                 .then(

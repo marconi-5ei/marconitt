@@ -7,13 +7,14 @@ app
         getData = function() {
             var req = {
                 method: 'GET',
-                url: 'http://localhost:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
+                //url: 'http://localhost:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
+                url: 'http://vps226037.ovh.net:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
             }
             $http(req)
                 .then(
                     function(data) {
-                        console.log(data.data);
-
+                        $scope.data = data.data;
+                        genEvents();
                     },
                     function(err) {
                         console.log(err);
@@ -31,6 +32,10 @@ app
         $scope.answer = function(answer) {
             $mdDialog.hide(answer);
         };
+
+        genEvents = function() {
+            console.log($scope.data);
+        }
 
         getData();
     });

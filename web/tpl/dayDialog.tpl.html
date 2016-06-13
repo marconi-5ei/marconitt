@@ -35,7 +35,7 @@
                 </md-option>
               </md-select>
               </md-input-container>
-              <md-input-container class="md-block" flex-gt-sm>
+              <md-input-container class="md-block" flex>
               <label>Insegnante</label>
               <md-select ng-model="sTeacher" ng-change="getOrarioTeacher()">
                 <md-option ng-repeat="teacher in teachers" value="{{teacher}}">
@@ -43,7 +43,7 @@
                 </md-option>
               </md-select>
               </md-input-container>
-              <md-input-container class="md-block" flex-gt-sm>
+              <md-input-container class="md-block" flex>
               <label>Aula</label>
               <md-select ng-model="sRoom" ng-change="getOrarioRoom()">
                 <md-option ng-repeat="room in rooms" value="{{room}}">
