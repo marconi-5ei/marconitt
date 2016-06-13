@@ -110,16 +110,15 @@ controller("OrarioCtrl", function($scope, $filter, $http, $q, $window, $sce, $md
 
     }
 
+    $scope.viewAll = function() {
+        if ($scope.sTeacher != undefined) $scope.getOrarioTeacher();
+        if ($scope.sClass != undefined) $scope.getOrarioClass();
+        if ($scope.sRoom != undefined) $scope.getOrarioRoom();
+    }
+
     $scope.genTable = function(data, tipo) {
-
-        data = data || $scope.data;
-        tipo = tipo || $scope.type;
-
-        $scope.data = data;
-        $scope.type = tipo;
-
         var days = $mdDateLocale.days;
-        var m = [
+        m = [
             [],
             [],
             [],
@@ -153,6 +152,7 @@ controller("OrarioCtrl", function($scope, $filter, $http, $q, $window, $sce, $md
                     <th>6</th>\
                 </tr></thead>";
         }
+
         data.forEach(function(a) {
             if (m[a.giorno - 1][a.ora - 1] != undefined) {
                 try {

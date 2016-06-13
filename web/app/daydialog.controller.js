@@ -37,5 +37,6 @@ app
             console.log($scope.data);
         }
 
+
         getData();
     });
