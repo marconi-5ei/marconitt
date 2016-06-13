@@ -1,0 +1,70 @@
+<md-dialog aria-label="{{ dayString }}">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{ dayString }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <md-tabs md-dynamic-height md-stretch-tabs="always">
+        <md-tab label="eventi">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Eventi</h1>
+            <p></p>
+          </md-content>
+        </md-tab>
+        <md-tab label="spaggiari">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Spaggiari</h1>
+            <p></p>
+          </md-content>
+        </md-tab>
+        <md-tab label="orario">
+          <md-content ng-controller="OrarioCtrl" ng-init="init(day)">
+            <md-content layout-padding>
+             <div layout="row" ng-hide="isSunday">
+              <md-input-container>
+              <label>Classe</label>
+              <md-select ng-model="sClass" ng-change="getOrarioClass()" size="20">
+                <md-option ng-repeat="class in classes" value="{{class}}">
+                {{class}}
+                </md-option>
+              </md-select>
+              </md-input-container>
+              <md-input-container class="md-block" flex-gt-sm>
+              <label>Insegnante</label>
+              <md-select ng-model="sTeacher" ng-change="getOrarioTeacher()">
+                <md-option ng-repeat="teacher in teachers" value="{{teacher}}">
+                {{teacher}}
+                </md-option>
+              </md-select>
+              </md-input-container>
+              <md-input-container class="md-block" flex-gt-sm>
+              <label>Aula</label>
+              <md-select ng-model="sRoom" ng-change="getOrarioRoom()">
+                <md-option ng-repeat="room in rooms" value="{{room}}">
+                {{room}}
+                </md-option>
+              </md-select>
+              </md-input-container>
+              <md-switch ng-model="all" aria-label="Vedi tutto" ng-change="genTable()">
+                Tutto
+              </md-switch>
+            </div>
+
+            <div layout="row" layout-align="center">
+              <div compile="htmlTable" id="orario"></div>
+            </div>
+
+           </md-content>
+
+          </md-content>
+        </md-tab>
+      </md-tabs>
+    </md-dialog-content>
+  </form>
+</md-dialog>
