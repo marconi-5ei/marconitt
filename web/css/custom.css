@@ -179,3 +179,7 @@ td,th {
 md-tab-content {
 	height: 100% !important;
 }
+
+.tipo1 {
+	color: red;
+}

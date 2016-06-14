@@ -1,8 +1,12 @@
 app
-    .controller('DayDialogCtrl', function($scope, $timeout, $mdSidenav, $log, $filter, $http, MaterialCalendarData, $q, $mdToast, $mdDialog, $mdDateLocale, day) {
+    .controller('DayDialogCtrl', function($scope, $timeout, $mdSidenav, $log, $filter, $http, MaterialCalendarData, $q, $mdToast, $mdDialog, $mdDateLocale, $rootScope, day) {
 
         $scope.day = day;
         $scope.dayString = $mdDateLocale.days[day.getDay()] + " " + day.getDate() + " " + $mdDateLocale.months[day.getMonth()] + " " + day.getFullYear();
+
+        $scope.logged = $rootScope.logged;
+
+        $scope.logged = $rootScope.logged;
 
         $scope.otherEvents = new Array();
         $scope.spaggiariEvents = new Array();
@@ -12,8 +16,8 @@ app
         getData = function() {
             var req = {
                 method: 'GET',
-                url: 'http://localhost:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
-                //url: 'http://vps226037.ovh.net:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
+                //url: 'http://localhost:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
+                url: 'http://vps226037.ovh.net:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
             }
             $http(req)
                 .then(

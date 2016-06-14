@@ -1,5 +1,5 @@
 app
-    .controller('ViewCtrl', function($scope, $timeout, $mdSidenav, $log, $filter, $http, MaterialCalendarData, $q, $mdToast, $mdDialog) {
+    .controller('ViewCtrl', function($scope, $timeout, $mdSidenav, $log, $filter, $http, MaterialCalendarData, $q, $mdToast, $mdDialog, $rootScope) {
         $scope.direction = "horizontal";
         $scope.selectedDate;
         $scope.options = {};
@@ -35,13 +35,6 @@ app
                     }
                 );
         }
-
-        $scope.toggleLayout = function() {
-            $scope.direction = $scope.direction === "vertical" ? "horizontal" : "vertical";
-            $scope.dayFormat = $scope.direction === "vertical" ? "EEEE, MMMM d" : "d";
-        }
-
-        $scope.setContentViaService = function() {}
 
         var numFmt = function(num) {
             num = num.toString();

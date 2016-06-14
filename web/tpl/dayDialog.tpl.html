@@ -18,13 +18,12 @@
                 <md-list-item class="md-3-line" ng-repeat="event in otherEvents">
                   <img ng-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxO3fWcw5bwuR4aT23_1_42LW8Trk1j_0eF3TqFy538NEIjuLL" class="md-avatar"/>
                   <div class="md-list-item-text" layout="column">
-                    <!--<h3>{{ event.hour_start }}</h3>-->
                     <h4>{{ event.hour_start | number:2}} - {{ event.hour_end | number:2}}</h4>
                     <p>
-                    <strong><span ng-repeat="w in event.who">{{ w.name }}</span></strong><br>
+                    <strong><span ng-repeat="w in event.who" class="tipo{{w.type}}">{{ w.name }}</span></strong><br>
                     {{ event.description }}</p>
                   </div>
-                  <md-button class="md-secondary md-icon-button" ng-click="doSecondaryAction($event)" aria-label="call">
+                  <md-button class="md-secondary md-icon-button" ng-click="doSecondaryAction($event)" aria-label="call" ng-show="logged">
                     <i class="material-icons">delete</i>
                   </md-button>
                 </md-list-item>
@@ -37,13 +36,16 @@
             <div>
               <md-list class="md-dense" flex>
                 <md-list-item class="md-3-line" ng-repeat="event in spaggiariEvents">
-                  <!--<img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />-->
+                  <img ng-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxO3fWcw5bwuR4aT23_1_42LW8Trk1j_0eF3TqFy538NEIjuLL" class="md-avatar"/>
                   <div class="md-list-item-text" layout="column">
-                    <!--<h3>{{ event.hour_start }}</h3>-->
                     <h4>{{ event.hour_start | number:2}} - {{ event.hour_end | number:2}}</h4>
-                    <strong><span ng-repeat="w in event.who">{{ w }}</span></strong>
-                    <p>{{ event.description }}</p>
+                    <p>
+                    <strong><span ng-repeat="w in event.who" class="tipo{{w.type}}">{{ w.name }}</span></strong><br>
+                    {{ event.description }}</p>
                   </div>
+                  <md-button class="md-secondary md-icon-button" ng-click="doSecondaryAction($event)" aria-label="call" ng-show="logged">
+                    <i class="material-icons">delete</i>
+                  </md-button>
                 </md-list-item>
               </md-list>
             </div>

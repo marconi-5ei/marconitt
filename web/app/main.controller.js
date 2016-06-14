@@ -1,7 +1,8 @@
 app
-  .controller('MainCtrl', function ($scope, $timeout, $mdSidenav, $log, $filter, $http, $mdToast) {
+  .controller('MainCtrl', function ($scope, $timeout, $mdSidenav, $log, $filter, $http, $mdToast, $rootScope) {
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.logged = true;
+    $rootScope.logged = $scope.logged;
     $scope.mainHtml;
     $scope.tool = 'Visualizza';
     $scope.logindata = {};
@@ -65,7 +66,9 @@ app
             localStorage.token = data.data.token;
             $mdToast.show($mdToast.simple().textContent('Login avvenuto con successo!'));
             $scope.token = data.data.token;
+            $rootScope.token = data.data.token;
             $scope.logged = true;
+            $rootScope.logged = true;
           } else {
             $mdToast.show($mdToast.simple().textContent('Errore! '+data.data.message));
           }
@@ -77,8 +80,10 @@ app
 
     }
     $scope.logout = function() {
-    	$scope.token = undefined;
-  		$scope.logged = false;
+      $scope.token = undefined;
+      $scope.logged = false;
+      $rootScope.token = undefined;
+      $rootScope.logged = false;
       localStorage.token = undefined;
   		$scope.setView('Visualizza');
     }
