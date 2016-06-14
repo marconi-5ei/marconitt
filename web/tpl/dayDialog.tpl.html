@@ -20,8 +20,9 @@
                   <div class="md-list-item-text" layout="column">
                     <!--<h3>{{ event.hour_start }}</h3>-->
                     <h4>{{ event.hour_start | number:2}} - {{ event.hour_end | number:2}}</h4>
-                    <strong><span ng-repeat="w in event.who">{{ w }}</span></strong>
-                    <p>{{ event.description }}</p>
+                    <p>
+                    <strong><span ng-repeat="w in event.who">{{ w.name }}</span></strong><br>
+                    {{ event.description }}</p>
                   </div>
                   <md-button class="md-secondary md-icon-button" ng-click="doSecondaryAction($event)" aria-label="call">
                     <i class="material-icons">delete</i>

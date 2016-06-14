@@ -170,31 +170,15 @@ apiRoutes.get('/events/:year/:month', function(req, res) {
 });
 
 apiRoutes.get('/events/:year/:month/:day', function(req, res) {
-    var toJson = [];
-    var jEvent = {};
+
     var day = new Date(parseInt(req.params.year), parseInt(req.params.month), parseInt(req.params.day));
-    Day.find({ date: day }, function(err, events) {
-        events.forEach(function(event) {
-          jEvent = {};
-          jEvent.hour_end = event.hour_end;
-          jEvent.hour_start = event.hour_start;
-          jEvent.date = event.date;
-          jEvent.type = event.type;
-          jEvent.description = event.description;
-          jEvent.who = [];
-          event.who.forEach(function(_who) {
-            Who.find({_id: _who}, function(err, whoo) {
-              console.log(toJson);
-              jEvent.who.push({
-                name: whoo[0].name,
-                type: whoo[0].type
-              });
-            });
-          });
-          toJson.push(jEvent);
-        });
-    });
-    res.json(toJson);
+
+    Day.find({date: day})
+      .populate('who')
+      .exec(function(err, events) {
+        res.json(events);
+      })
+
 });
 
 // route middleware to verify a token
