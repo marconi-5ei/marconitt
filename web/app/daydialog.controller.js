@@ -4,11 +4,16 @@ app
         $scope.day = day;
         $scope.dayString = $mdDateLocale.days[day.getDay()] + " " + day.getDate() + " " + $mdDateLocale.months[day.getMonth()] + " " + day.getFullYear();
 
+        $scope.otherEvents = new Array();
+        $scope.spaggiariEvents = new Array();
+
+        $scope.data;
+
         getData = function() {
             var req = {
                 method: 'GET',
-                //url: 'http://localhost:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
-                url: 'http://vps226037.ovh.net:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
+                url: 'http://localhost:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
+                //url: 'http://vps226037.ovh.net:8080/api/events/' + $scope.day.getFullYear() + "/" + $scope.day.getMonth() + "/" + $scope.day.getDate()
             }
             $http(req)
                 .then(
@@ -18,7 +23,7 @@ app
                     },
                     function(err) {
                         console.log(err);
-                        $mdToast.show($mdToast.simple().textContent("Errore nel recuperare gli eventi: " + err.data));
+                        $mdToast.show($mdToast.simple().textContent("Errore nel recuperare gli eventi: " + err.data || "il server non risponde.."));
                     }
                 );
         }
@@ -34,7 +39,18 @@ app
         };
 
         genEvents = function() {
-            console.log($scope.data);
+            $scope.data.forEach(function(event) {
+                if (event.type == 0) {
+                    $scope.otherEvents.push(event);
+                }
+            });
+            $scope.data.forEach(function(event) {
+                if (event.type == 1) {
+                    $scope.spaggiariEvents.push(event);
+                }
+            });
+
+            console.log($scope.spaggiariEvents);
         }
 
 

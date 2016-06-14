@@ -31,7 +31,7 @@ app
                     },
                     function(err) {
                         console.log(err);
-                        $mdToast.show($mdToast.simple().textContent("Errore nel recuperare gli eventi: " + err.data));
+                        $mdToast.show($mdToast.simple().textContent("Errore nel recuperare gli eventi: " + (err.data || "il server non risponde")));
                     }
                 );
         }
