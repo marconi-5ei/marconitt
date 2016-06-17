@@ -6,6 +6,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
+var http = require('http');
 
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
@@ -46,6 +47,7 @@ app.get('/', function(req, res) {
 
 app.get('/setup', function(req, res) {
 
+
     // create a sample user
     /*var nick = new User({ 
       name: 'dalbo', 
@@ -70,7 +72,7 @@ app.get('/setup', function(req, res) {
 
       console.log('User saved successfully '+who.id);
       res.json({ success: true });
-    });*/
+    });
 
     // Day.remove({},function(a) {console.log("ok")});
 
@@ -90,7 +92,7 @@ app.get('/setup', function(req, res) {
         res.json(day);
     });
 
-
+*/
     /*
       Day.find({date: new Date(2016,5,22)}, function(err, days) {
         var dd = days;
@@ -159,6 +161,14 @@ apiRoutes.get('/', function(req, res) {
     res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 
+
+
+apiRoutes.get('/who', function(req, res) {
+    Who.find({}, function(err, whos) {
+        res.json(whos);
+    });
+});
+
 apiRoutes.get('/events/:year/:month', function(req, res) {
     var y = parseInt(req.params.year);
     var m = parseInt(req.params.month);
@@ -173,17 +183,62 @@ apiRoutes.get('/events/:year/:month/:day', function(req, res) {
 
     var day = new Date(parseInt(req.params.year), parseInt(req.params.month), parseInt(req.params.day));
 
-    Day.find({date: day})
-      .populate('who')
-      .exec(function(err, events) {
-        res.json(events);
-      })
+    Day.find({ date: day })
+        .populate('who')
+        .exec(function(err, events) {
+            res.json(events);
+        })
+
+});
+
+
+apiRoutes.get('/spaggiari/:year/:month/:day', function(req, res) {
+
+    var day = new Date(parseInt(req.params.year), parseInt(req.params.month), parseInt(req.params.day));
+
+    events = http.get({
+        host: 'vps226037.ovh.net',
+        path: '/marconi-tt/agenda.php?data=' + req.params.year + "-" + (parseInt(req.params.month) + 1) + "-" + req.params.day
+    }, function(response) {
+        // Continuously update stream with data
+        var body = '';
+        response.on('data', function(d) {
+            body += d;
+        });
+        response.on('end', function() {
+
+            Day.remove({ date: day, type: 1 }, function(a) {});
+            // Data reception is done, do whatever with it!
+            var parsed = JSON.parse(body);
+
+            parsed.forEach(function(event) {
+              console.log(event.who);
+                whoo = Who.find({ name: event.who }).exec(function(err, w){
+                    console.log(w);
+                });
+                dayToSave = new Day({
+                    date: day,
+                    hour_start: parseFloat(event.hour_start.replace(':', '.')),
+                    hour_end: parseFloat(event.hour_end.replace(':', '.')),
+                    type: 1,
+                    description: event.description,
+                    who: [whoo._id]
+                });
+                dayToSave.save(function(err, d) {
+                    if (err) throw err;
+
+                });
+            });
+
+        });
+    });
+
+    res.json({ success: true });
 
 });
 
 // route middleware to verify a token
 apiRoutes.use(function(req, res, next) {
-    console.log(req.headers);
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
@@ -214,22 +269,25 @@ apiRoutes.use(function(req, res, next) {
 });
 
 
-apiRoutes.get('/events/:year/:month/:day', function(req, res) {
-    var m = parseInt(req.params.month);
-    var y = parseInt(req.params.year);
-    var d = parseInt(req.params.day);
-    var day = new Date(y, m, d);
-    Day.find({ date: day }, function(err, events) {
-        res.json(events);
+apiRoutes.post('/events/:year/:month/:day', function(req, res) {
+    console.log(req.body);
+    var day = new Day({
+        date: new Date(parseInt(req.params.year), parseInt(req.params.month), parseInt(req.params.day)),
+        hour_start: parseFloat(req.body.hour_start),
+        hour_end: parseFloat(req.body.hour_end),
+        type: 0,
+        description: req.body.description,
+        who: req.body.who.split(',')
+    });
+    console.log(day);
+    day.save(function(err, d) {
+        if (err) throw err;
+
+        console.log('Day saved successfully ' + d.id);
+        res.json({ success: true });
     });
 });
 
-// route to return all users (GET http://localhost:8080/api/users)
-apiRoutes.get('/users', function(req, res) {
-    User.find({}, function(err, users) {
-        res.json(users);
-    });
-});
 
 
 // apply the routes to our application with the prefix /api
