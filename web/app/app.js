@@ -28,6 +28,9 @@ app
     };
     $mdDateLocaleProvider.msgCalendar = 'Calendario';
     $mdDateLocaleProvider.msgOpenCalendar = 'Apri il calendario';
+    $mdDateLocaleProvider.formatDate = function(date) {
+       return moment(date).format('DD-MM-YYYY');
+    };
 
 
   });

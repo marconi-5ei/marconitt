@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var http = require('http');
+var Converter = require("csvtojson").Converter;
 
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
@@ -184,10 +185,76 @@ apiRoutes.get('/events/:year/:month/:day', function(req, res) {
     var day = new Date(parseInt(req.params.year), parseInt(req.params.month), parseInt(req.params.day));
 
     Day.find({ date: day })
+        .sort({hour_start: 'asc', hour_end: 'asc'})
         .populate('who')
         .exec(function(err, events) {
             res.json(events);
         })
+
+});
+
+apiRoutes.get('/who/insert', function(req, res) {
+Who.remove({},function(a){});
+
+var converter = new Converter({});
+converter.fromFile("./alunni.csv",function(err,result){
+  result.forEach(function(alunno){
+    toSave = new Who({
+        name: (alunno.cognome+" "+alunno.nome).toLowerCase().capitalize(),
+        type: 4
+    });
+    toSave.save(function(err, d) {
+        if (err) throw err;
+    });
+  })
+});
+
+String.prototype.capitalize = function() {
+    return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+};
+  everyone = http.get({
+    host: '88.149.220.222',
+    path: '/orario/api.php?search=a'
+  }, function(response) {
+        var body = '';
+        response.on('data', function(d) {
+            body += d;
+        });
+        response.on('end', function() {
+            // Data reception is done, do whatever with it!
+            var parsed = JSON.parse(body);
+
+            parsed.classes.forEach(function(classs) {
+                  toSave = new Who({
+                      name: classs.toLowerCase().capitalize(),
+                      type: 2
+                  });
+                  toSave.save(function(err, d) {
+                      if (err) throw err;
+                  });
+                });
+            parsed.teachers.forEach(function(teacher) {
+                  toSave = new Who({
+                      name: teacher.toLowerCase().capitalize(),
+                      type: 1
+                  });
+                  toSave.save(function(err, d) {
+                      if (err) throw err;
+                  });
+                });
+            parsed.rooms.forEach(function(room) {
+                  toSave = new Who({
+                      name: room.toLowerCase().capitalize(),
+                      type: 3
+                  });
+                  toSave.save(function(err, d) {
+                      if (err) throw err;
+                  });
+                });
+
+            res.json({ success: true });
+        });
+  })
 
 });
 
@@ -212,29 +279,30 @@ apiRoutes.get('/spaggiari/:year/:month/:day', function(req, res) {
             var parsed = JSON.parse(body);
 
             parsed.forEach(function(event) {
-              console.log(event.who);
-                whoo = Who.find({ name: event.who }).exec(function(err, w){
-                    console.log(w);
-                });
-                dayToSave = new Day({
-                    date: day,
-                    hour_start: parseFloat(event.hour_start.replace(':', '.')),
-                    hour_end: parseFloat(event.hour_end.replace(':', '.')),
-                    type: 1,
-                    description: event.description,
-                    who: [whoo._id]
-                });
-                dayToSave.save(function(err, d) {
-                    if (err) throw err;
-
+                Who.find({ name: { $regex: new RegExp("^" + event.who.toLowerCase(), "i") } }).exec(function(err, w) {
+                  if (w[0]) {
+                    who = [w[0]._id];
+                  } else {
+                    who = [];
+                  }
+                  dayToSave = new Day({
+                      date: day,
+                      hour_start: parseFloat(event.hour_start.replace(':', '.')),
+                      hour_end: parseFloat(event.hour_end.replace(':', '.')),
+                      type: 1,
+                      description: event.description,
+                      who: who
+                  });
+                  dayToSave.save(function(err, d) {
+                      if (err) throw err;
+                      console.log(d);
+                  });
                 });
             });
 
+            res.json({ success: true });
         });
     });
-
-    res.json({ success: true });
-
 });
 
 // route middleware to verify a token

@@ -109,6 +109,6 @@ app
     }
 
     // on start
-    $scope.setView('Visualizza');
+    $scope.setView('Inserisci');
 
   });
