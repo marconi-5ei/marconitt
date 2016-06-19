@@ -14,7 +14,8 @@ app
         var init = function() {
             var req = {
                 method: 'GET',
-                url: 'http://localhost:8080/api/who'
+                //url: 'http://localhost:8080/api/who'
+                url: 'http://vps226037.ovh.net:8080/api/who'
             }
 
             $http(req)
