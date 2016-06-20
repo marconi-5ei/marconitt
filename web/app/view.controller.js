@@ -1,5 +1,6 @@
 app
     .controller('ViewCtrl', function($scope, $timeout, $mdSidenav, $log, $filter, $http, MaterialCalendarData, $q, $mdToast, $mdDialog, $rootScope) {
+
         $scope.direction = "horizontal";
         $scope.selectedDate;
         $scope.options = {};
@@ -104,9 +105,11 @@ app
                     }
                 })
                 .then(function(answer) {
-                    $scope.status = 'You said the information was "' + answer + '".';
+                    getData();
+                    $scope.selectOptions();
                 }, function() {
-                    $scope.status = 'You cancelled the dialog.';
+                    getData();
+                    $scope.selectOptions();
                 });
         };
 

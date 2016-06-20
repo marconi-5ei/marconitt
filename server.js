@@ -310,6 +310,8 @@ apiRoutes.use(function(req, res, next) {
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
+    console.log(req.body);
+
     // decode token
     if (token) {
 
@@ -353,6 +355,16 @@ apiRoutes.post('/events/:year/:month/:day', function(req, res) {
 
         console.log('Day saved successfully ' + d.id);
         res.json({ success: true });
+    });
+});
+
+apiRoutes.post('/events/:id', function(req, res) {
+    Day.remove({_id: req.params.id}).exec(function(err,d) {
+      if (err) {
+        res.json(err);
+      } else {
+        res.json({success: true});
+      }
     });
 });
 

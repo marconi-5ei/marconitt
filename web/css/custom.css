@@ -48,7 +48,9 @@
 /**
 table
 */
-
+table {
+	border-collapse: collapse;
+}
 .table table {
     border-collapse: collapse;
     margin-bottom: 3em;
@@ -159,7 +161,7 @@ md-content.calendar div:not(.subheader) div {
 md-content.calendar div:not(.subheader) div div:first-child {
     padding-left: 3px;
     padding-top: 3px;
-    font-size: 2em;
+    font-size: 1.7em;
     height: 1em;
     width: 100%;
 }
@@ -167,15 +169,19 @@ md-content.calendar div:not(.subheader) div div:first-child {
 md-content.calendar div:not(.subheader) div div:not(:first-child) {
     padding: 1px;
     padding-bottom: 3px;
-    position: relative;
+    /*position: relative;*/
+    display: flex;
+    align-self: flex-end;
+    justify-content: flex-end;
+    flex-direction: initial;
 }
 
 md-content.calendar div:not(.subheader) div div:not(:first-child) button {
     margin: 1px;
-    position: absolute;
-    bottom: 2px;
+    bottom: 0;
     float: right;
     right: 2px;
+    align-self: flex-end;
 }
 
 .subheader.layout-row div {
@@ -203,4 +209,8 @@ md-chips.md-default-theme .md-chips, md-chips .md-chips {
     max-width: 100%;
     position: relative;
     font-size: 12px;
+}
+
+.md-whiteframe-12dp {
+	box-shadow: none;
 }

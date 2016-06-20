@@ -3,7 +3,7 @@ var app = angular
   .module('MarconiTT', ['ngMaterial','materialCalendar','mdPickers']);
 
 app
-  .config(function($mdThemingProvider, $mdDateLocaleProvider) {
+  .config(function($mdThemingProvider, $mdDateLocaleProvider, $httpProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue', {
       'default': '500',
@@ -31,6 +31,14 @@ app
     $mdDateLocaleProvider.formatDate = function(date) {
        return moment(date).format('DD-MM-YYYY');
     };
+
+
+  $httpProvider.defaults.cache = false;
+  $httpProvider.defaults.headers.common = {};
+  $httpProvider.defaults.headers.post = {};
+  $httpProvider.defaults.headers.put = {};
+  $httpProvider.defaults.headers.patch = {};
+  $httpProvider.defaults.headers.delete = {};
 
 
   });

@@ -15,7 +15,7 @@
                     <md-content class="md-padding">
                         <div>
                             <md-list class="md-dense" flex>
-                                <md-list-item class="md-3-line" ng-repeat="event in otherEvents">
+                                <md-list-item class="md-3-line" ng-repeat="event in otherEvents | orderBy:'hour_start' | orderBy:'hour_end'">
                                     <img ng-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxO3fWcw5bwuR4aT23_1_42LW8Trk1j_0eF3TqFy538NEIjuLL" class="md-avatar" />
                                     <div class="md-list-item-text" layout="column">
                                         <h4>{{ event.hour_start | number:2}} - {{ event.hour_end | number:2}}</h4>
@@ -30,7 +30,7 @@
                                             {{ event.description }}
                                         </p>
                                     </div>
-                                    <md-button class="md-secondary md-icon-button" ng-click="doSecondaryAction($event)" aria-label="call" ng-show="logged">
+                                    <md-button class="md-secondary md-icon-button" ng-click="delete($event, event)" aria-label="delete" ng-show="logged">
                                         <i class="material-icons">delete</i>
                                     </md-button>
                                 </md-list-item>
@@ -57,7 +57,7 @@
                                             {{ event.description }}
                                         </p>
                                     </div>
-                                    <md-button class="md-secondary md-icon-button" ng-click="doSecondaryAction($event)" aria-label="call" ng-show="logged">
+                                    <md-button class="md-secondary md-icon-button" ng-click="delete($event, event)" aria-label="delete" ng-show="logged">
                                         <i class="material-icons">delete</i>
                                     </md-button>
                                 </md-list-item>
