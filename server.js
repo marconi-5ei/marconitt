@@ -258,14 +258,11 @@ String.prototype.capitalize = function() {
 
 });
 
-
-apiRoutes.get('/spaggiari/:year/:month/:day', function(req, res) {
-
-    var day = new Date(parseInt(req.params.year), parseInt(req.params.month), parseInt(req.params.day));
-
+var salva = function(req,res,day) {
+  console.log(day);
     events = http.get({
         host: 'vps226037.ovh.net',
-        path: '/marconi-tt/agenda.php?data=' + req.params.year + "-" + (parseInt(req.params.month) + 1) + "-" + req.params.day
+        path: '/marconi-tt/agenda.php?data=' + day.getFullYear() + "-" + (day.getMonth()+1) + "-" + day.getDate()
     }, function(response) {
         // Continuously update stream with data
         var body = '';
@@ -275,34 +272,67 @@ apiRoutes.get('/spaggiari/:year/:month/:day', function(req, res) {
         response.on('end', function() {
 
             Day.remove({ date: day, type: 1 }, function(a) {});
+            
             // Data reception is done, do whatever with it!
-            var parsed = JSON.parse(body);
+            try {
+              var parsed = JSON.parse(body);
 
-            parsed.forEach(function(event) {
-                Who.find({ name: { $regex: new RegExp("^" + event.who.toLowerCase(), "i") } }).exec(function(err, w) {
-                  if (w[0]) {
-                    who = [w[0]._id];
-                  } else {
-                    who = [];
-                  }
-                  dayToSave = new Day({
-                      date: day,
-                      hour_start: parseFloat(event.hour_start.replace(':', '.')),
-                      hour_end: parseFloat(event.hour_end.replace(':', '.')),
-                      type: 1,
-                      description: event.description,
-                      who: who
+              parsed.forEach(function(event) {
+                var who = [];
+                  Who.find({ $or: [{name: { $regex: new RegExp("^" + event.who[0].toLowerCase(), "i") }}, {name: { $regex: new RegExp("^" + event.who[1].toLowerCase(), "i") }}]  }).exec(function(err, w) {
+                    if (w[0]) {
+                      w.forEach(function(ww) {
+                        who.push(ww._id);
+                      })
+                    } else {
+                      who = [];
+                    }
+                    dayToSave = new Day({
+                        date: day,
+                        hour_start: parseFloat(event.hour_start.replace(':', '.')),
+                        hour_end: parseFloat(event.hour_end.replace(':', '.')),
+                        type: 1,
+                        description: event.description,
+                        who: who
+                    });
+                    dayToSave.save(function(err, d) {
+                        if (err) console.log(err);
+                        console.log(d);
+                    });
                   });
-                  dayToSave.save(function(err, d) {
-                      if (err) throw err;
-                      console.log(d);
-                  });
-                });
-            });
+              });
+            } catch (e) {
+              console.log(e);
+              console.log(day);
+            }
 
-            res.json({ success: true });
         });
     });
+}
+
+
+apiRoutes.get('/spaggiari', function(req,res) {
+  var now = new Date();
+  days = [];
+  for (var d = new Date(2016, 3, 1); d <= now; d.setDate(d.getDate() + 1)) {
+    //setTimeout(salva, 6000, req, res, d);
+    days.push(new Date(d));
+  }
+  console.log(days);
+  l = days.length;
+  c = 0;
+  var refreshId = setInterval(function() {
+    if(c == l) clearInterval(refreshId);
+    salva(req,res,days[c]);
+    c += 1;
+  }, 6000);
+})
+
+apiRoutes.get('/spaggiari/:year/:month/:day', function(req, res) {
+
+    var day = new Date(parseInt(req.params.year), parseInt(req.params.month), parseInt(req.params.day));
+    salva(req,res,day);
+    res.json({ success: true });
 });
 
 // route middleware to verify a token

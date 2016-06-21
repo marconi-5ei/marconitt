@@ -109,6 +109,6 @@ app
     }
 
     // on start
-    $scope.setView('Inserisci');
+    $scope.setView('Admin');
 
   });

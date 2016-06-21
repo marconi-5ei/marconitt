@@ -95,7 +95,7 @@ $data = $_GET['data']; //AAAA-MM-GG
             $event->description = $row[6];
             $event->hour_start = $row[8];
             $event->hour_end = $row[10];
-            $event->who = substr($row[1], 0, 3);
+            $event->who = [substr($row[1], 0, 3), strtolower($row[3])];
             array_push($events, $event);
           }
             $ok = true;

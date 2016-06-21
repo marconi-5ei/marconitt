@@ -149,10 +149,6 @@ md-tab-content {
     height: 100% !important;
 }
 
-.tipo1 {
-    color: red;
-}
-
 md-content.calendar div:not(.subheader) div {
     padding: 2px;
     flex-direction: column;

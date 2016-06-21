@@ -21,6 +21,7 @@ app
                 //url: 'http://localhost:8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1)
                 url: 'http://vps226037.ovh.net:8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1)
             }
+            console.log('http://vps226037.ovh.net:8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1));
             $http(req)
                 .then(
                     function(data) {
@@ -54,6 +55,7 @@ app
             var date = new Date($scope.currentYear, $scope.currentMonth - 1, 1);
             var days = [];
             while (date.getMonth() == parseInt($scope.currentMonth - 1)) {
+                console.log(date);
                 MaterialCalendarData.setDayContent(date, " ");
                 date.setDate(date.getDate() + 1);
             }
@@ -118,15 +120,15 @@ app
             $mdOpenMenu(ev);
         };
 
-        $scope.prevMonth = function(month) {
-            $scope.currentMonth = month.month;
+        $scope.prevMonth = function(date) {
+            $scope.currentMonth = date.month;
+            $scope.currentYear = date.year;
             getData();
-            console.log(month.month);
         }
-        $scope.nextMonth = function(month) {
-            $scope.currentMonth = month.month;
+        $scope.nextMonth = function(date) {
+            $scope.currentMonth = date.month;
+            $scope.currentYear = date.year;
             getData();
-            console.log(month.month);
         }
 
         getData();

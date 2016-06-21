@@ -48,7 +48,7 @@
                                         <h4>{{ event.hour_start | number:2}} - {{ event.hour_end | number:2}}</h4>
                                         <p>
                                             <md-chips ng-model="event.who" name="who" readonly="true">
-                                                <md-chip-template>
+                                                <md-chip-template class="tipo{{$chip.type}}">
                                                     {{$chip.name}}
                                                 </md-chip-template>
                                             </md-chips>
@@ -56,7 +56,7 @@
                                         <p flex="60">
                                             {{ event.description }}
                                         </p>
-                                    </div>
+                                        </div>
                                     <md-button class="md-secondary md-icon-button" ng-click="delete($event, event)" aria-label="delete" ng-show="logged">
                                         <i class="material-icons">delete</i>
                                     </md-button>

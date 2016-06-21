@@ -1,0 +1,22 @@
+<div ng-controller="AdminCtrl" layout-fill style="height: 100% !important;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Open sidenav" ng-click="toggleLeft()" hide-gt-md>
+                <i class="material-icons">menu</i>
+            </md-button>
+            <h2>
+			<span>Admin</span>
+		</h2>
+        </div>
+    </md-toolbar>
+    <md-content layout="row" style="height: calc(100% - 64px) !important;" ng-hide="isLoading">
+		<div layout="column">
+			<div layout="row" layot-align="center center" layout-padding>
+				<h4>Resetta eventi Spaggiari</h4>
+				<md-datepicker ng-model="spaggiariResetDate" md-placeholder="Seleziona la data"></md-datepicker>
+				<md-button class="md-raised" ng-click="spaggiariReset()">Reset</md-button>
+			</div>
+		</div>
+    </md-content>
+    <div flex></div>
+</div>
