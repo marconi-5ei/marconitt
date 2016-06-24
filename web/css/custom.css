@@ -210,3 +210,7 @@ md-chips.md-default-theme .md-chips, md-chips .md-chips {
 .md-whiteframe-12dp {
 	box-shadow: none;
 }
+
+.md-toolbar-tools md-input-container:not(.md-input-invalid).md-input-has-value label,.md-toolbar-tools .md-text,.md-toolbar-tools .md-select-placeholder span {
+    color: white;
+}

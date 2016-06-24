@@ -1,5 +1,5 @@
 app
-    .controller('ViewCtrl', function($scope, $timeout, $mdSidenav, $log, $filter, $http, MaterialCalendarData, $q, $mdToast, $mdDialog, $rootScope) {
+    .controller('ViewCtrl', function($scope, $timeout, $mdSidenav, $log, $filter, $http, MaterialCalendarData, $q, $mdToast, $mdDialog, CONFIG, $rootScope) {
 
         $scope.direction = "horizontal";
         $scope.selectedDate;
@@ -17,22 +17,20 @@ app
         var getData = function() {
             var req = {
                 method: 'GET',
-                //url: 'http://vps226037.ovh.net:8080/api/month/'+ $scope.currentMonth,
-                //url: 'http://localhost:8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1)
-                url: 'http://vps226037.ovh.net:8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1)
+                url: 'http://'+CONFIG.HOST+':8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1)
             }
-            console.log('http://vps226037.ovh.net:8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1));
             $http(req)
                 .then(
                     function(data) {
-                        console.log(data);
                         $scope.events = data.data;
+                        if (!$rootScope.logged) {
+                            $scope.options.types = ["0"];
+                        }
                         setContents();
                         $timeout(function() { $scope.isLoading = false }, 1000);
 
                     },
                     function(err) {
-                        console.log(err);
                         $mdToast.show($mdToast.simple().textContent("Errore nel recuperare gli eventi: " + (err.data || "il server non risponde")));
                     }
                 );
@@ -55,7 +53,6 @@ app
             var date = new Date($scope.currentYear, $scope.currentMonth - 1, 1);
             var days = [];
             while (date.getMonth() == parseInt($scope.currentMonth - 1)) {
-                console.log(date);
                 MaterialCalendarData.setDayContent(date, " ");
                 date.setDate(date.getDate() + 1);
             }
@@ -64,7 +61,7 @@ app
         var setContents = function() {
             var eventsN = new Array();
             $scope.events.forEach(function(event) {
-                if ($scope.options.types.indexOf("" + event.type) > -1) {
+                if ($scope.options.types.indexOf("" + event.type) > -1 && event.visible) {
                     try {
                         eventsN[event.date][event.type] = (eventsN[event.date][event.type] || 0) + 1;
                     } catch (e) {
@@ -77,25 +74,10 @@ app
                 var html = ""
                 Object.keys(eventsN[key]).forEach(function(typekey) {
                     html += "<md-button class=\"md-fab md-mini md-tiny type" + typekey + "\" aria-label=\"Events\">" + eventsN[key][typekey] + "</md-button>";
-                    //MaterialCalendarData.setDayContent(new Date(key), "<md-button class=\"md-fab md-mini md-tiny type"+typekey+"\" aria-label=\"Events\">"+eventsN[key][typekey]+"</md-button>");//eventsN[key]);
                 });
                 MaterialCalendarData.setDayContent(new Date(key), html);
             });
-            //console.log("-----------------------");
         }
-
-        /*$scope.setDayContent = function(date) {
-            loadContentAsync = true;
-            var counter = 0;
-            var str = "";
-            $scope.events.forEach(function(event) {
-                if (new Date(date).getTime() === new Date(event.date).getTime()) {
-                    console.log(event.date);
-                    str += event.description + " ";
-                }
-            });
-            return str;
-        };*/
 
         $scope.dayClick = function(date) {
             $mdDialog.show({

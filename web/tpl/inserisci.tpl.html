@@ -49,6 +49,9 @@
                         <label>Descrizione</label>
                         <textarea ng-model="event.description" placeholder="Descrivi l'evento"></textarea>
                     </md-input-container>
+                    <md-switch ng-model="event.visible" aria-label="Switch 1">
+                        Visibile
+                    </md-switch>
                 </div>
                 <div layout="row" flex>
                     <md-datepicker ng-model="event.date" md-placeholder="Seleziona data.." md-open-on-focus flex></md-datepicker>

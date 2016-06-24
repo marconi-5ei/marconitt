@@ -1,7 +1,7 @@
 app
-  .controller('MainCtrl', function ($scope, $timeout, $mdSidenav, $log, $filter, $http, $mdToast, $rootScope) {
+  .controller('MainCtrl', function ($scope, $timeout, $mdSidenav, $log, $filter, $http, $mdToast, CONFIG, $rootScope) {
     $scope.toggleLeft = buildDelayedToggler('left');
-    $scope.logged = true;
+    $scope.logged = false;
     $rootScope.logged = $scope.logged;
     $scope.mainHtml;
     $scope.tool = 'Visualizza';
@@ -51,7 +51,7 @@ app
 
       var req = {
         method: 'POST',
-        url: 'http://vps226037.ovh.net:8080/api/authenticate',
+        url: 'http://'+CONFIG.HOST+':8080/api/authenticate',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -109,6 +109,6 @@ app
     }
 
     // on start
-    $scope.setView('Admin');
+    $scope.setView('Visualizza');
 
   });

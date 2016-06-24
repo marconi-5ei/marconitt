@@ -377,7 +377,8 @@ apiRoutes.post('/events/:year/:month/:day', function(req, res) {
         hour_end: parseFloat(req.body.hour_end),
         type: 0,
         description: req.body.description,
-        who: req.body.who.split(',')
+        who: req.body.who.split(','),
+        visible: req.body.visible
     });
     console.log(day);
     day.save(function(err, d) {
@@ -388,8 +389,17 @@ apiRoutes.post('/events/:year/:month/:day', function(req, res) {
     });
 });
 
-apiRoutes.post('/events/:id', function(req, res) {
+apiRoutes.post('/events/delete/:id', function(req, res) {
     Day.remove({_id: req.params.id}).exec(function(err,d) {
+      if (err) {
+        res.json(err);
+      } else {
+        res.json({success: true});
+      }
+    });
+});
+apiRoutes.post('/events/visibility/:id', function(req, res) {
+    Day.update({_id: req.params.id}, { visible: req.body.visible }).exec(function(err,d) {
       if (err) {
         res.json(err);
       } else {

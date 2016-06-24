@@ -7,5 +7,6 @@ module.exports = mongoose.model('Day', new Schema({
     hour_end: Number,
     description: String,
     who: [{type: Schema.Types.ObjectId, ref:'Who'}],
-    type: Number
+    type: Number,
+    visible: { type: Boolean, default: false }
 }));

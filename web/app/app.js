@@ -42,3 +42,7 @@ app
 
 
   });
+
+  app.constant("CONFIG", {
+    'HOST' : 'localhost'
+  });

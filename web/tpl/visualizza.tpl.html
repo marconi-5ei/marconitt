@@ -8,9 +8,9 @@
 			<span>{{ tool }}</span>
 		</h2>
             <span flex=""></span>
-            <md-input-container>
+            <md-input-container ng-show="logged">
                 <md-select ng-model="options.types" ng-change="selectOptions()" multiple>
-                    <md-option value="1" ng-show="logged">
+                    <md-option value="1">
                         Spaggiari
                     </md-option>
                     <md-option value="0">

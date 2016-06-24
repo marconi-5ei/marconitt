@@ -15,9 +15,9 @@
                     <md-content class="md-padding">
                         <div>
                             <md-list class="md-dense" flex>
-                                <md-list-item class="md-3-line" ng-repeat="event in otherEvents | orderBy:'hour_start' | orderBy:'hour_end'">
-                                    <img ng-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxO3fWcw5bwuR4aT23_1_42LW8Trk1j_0eF3TqFy538NEIjuLL" class="md-avatar" />
+                                <md-list-item class="md-3-line" ng-repeat="event in events | orderBy:'hour_start' | orderBy:'hour_end'">
                                     <div class="md-list-item-text" layout="column">
+                                        <img src="" alt="">
                                         <h4>{{ event.hour_start | number:2}} - {{ event.hour_end | number:2}}</h4>
                                         <p>
                                             <md-chips ng-model="event.who" name="who" readonly="true">
@@ -32,18 +32,26 @@
                                     </div>
                                     <md-button class="md-secondary md-icon-button" ng-click="delete($event, event)" aria-label="delete" ng-show="logged">
                                         <i class="material-icons">delete</i>
+                                        <md-tooltip md-direction="top">
+                                            Elimina evento
+                                        </md-tooltip>
+                                    </md-button>
+                                    <md-button class="md-secondary md-icon-button" ng-click="toggleVisibility($event, event)" aria-label="delete" ng-show="logged" style="margin-right: 34px;">
+                                        <md-tooltip md-direction="top">
+                                            <span ng-if="event.visible">Nascondi</span> <span ng-if="!event.visible">Mostra</span>
+                                        </md-tooltip>
+                                        <i class="material-icons" ng-if="!event.visible">visibility_off</i><i class="material-icons" ng-if="event.visible">visibility</i>
                                     </md-button>
                                 </md-list-item>
                             </md-list>
                         </div>
                     </md-content>
                 </md-tab>
-                <md-tab label="spaggiari">
+                <!--<md-tab label="spaggiari" ng-if="logged">
                     <md-content class="md-padding">
                         <div>
                             <md-list class="md-dense" flex>
                                 <md-list-item class="md-3-line" ng-repeat="event in spaggiariEvents | orderBy:'hour_start' | orderBy:'hour_end'">
-                                    <img ng-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxO3fWcw5bwuR4aT23_1_42LW8Trk1j_0eF3TqFy538NEIjuLL" class="md-avatar" />
                                     <div class="md-list-item-text" layout="column">
                                         <h4>{{ event.hour_start | number:2}} - {{ event.hour_end | number:2}}</h4>
                                         <p>
@@ -64,7 +72,7 @@
                             </md-list>
                         </div>
                     </md-content>
-                </md-tab>
+                </md-tab>-->
                 <md-tab label="orario">
                     <md-content ng-controller="OrarioCtrl" ng-init="init(day)">
                         <md-content layout-padding>
