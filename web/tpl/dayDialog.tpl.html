@@ -15,9 +15,8 @@
                     <md-content class="md-padding">
                         <div>
                             <md-list class="md-dense" flex>
-                                <md-list-item class="md-3-line" ng-repeat="event in events | orderBy:'hour_start' | orderBy:'hour_end'">
+                                <md-list-item class="md-3-line borderType{{event.type}} dotted_{{event.visible}}" ng-repeat="event in events | orderBy:'hour_start' | orderBy:'hour_end'">
                                     <div class="md-list-item-text" layout="column">
-                                        <img src="" alt="">
                                         <h4>{{ event.hour_start | number:2}} - {{ event.hour_end | number:2}}</h4>
                                         <p>
                                             <md-chips ng-model="event.who" name="who" readonly="true">
@@ -47,32 +46,6 @@
                         </div>
                     </md-content>
                 </md-tab>
-                <!--<md-tab label="spaggiari" ng-if="logged">
-                    <md-content class="md-padding">
-                        <div>
-                            <md-list class="md-dense" flex>
-                                <md-list-item class="md-3-line" ng-repeat="event in spaggiariEvents | orderBy:'hour_start' | orderBy:'hour_end'">
-                                    <div class="md-list-item-text" layout="column">
-                                        <h4>{{ event.hour_start | number:2}} - {{ event.hour_end | number:2}}</h4>
-                                        <p>
-                                            <md-chips ng-model="event.who" name="who" readonly="true">
-                                                <md-chip-template class="tipo{{$chip.type}}">
-                                                    {{$chip.name}}
-                                                </md-chip-template>
-                                            </md-chips>
-                                        </p>
-                                        <p flex="60">
-                                            {{ event.description }}
-                                        </p>
-                                        </div>
-                                    <md-button class="md-secondary md-icon-button" ng-click="delete($event, event)" aria-label="delete" ng-show="logged">
-                                        <i class="material-icons">delete</i>
-                                    </md-button>
-                                </md-list-item>
-                            </md-list>
-                        </div>
-                    </md-content>
-                </md-tab>-->
                 <md-tab label="orario">
                     <md-content ng-controller="OrarioCtrl" ng-init="init(day)">
                         <md-content layout-padding>

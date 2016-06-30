@@ -8,16 +8,6 @@
 			<span>{{ tool }}</span>
 		</h2>
             <span flex=""></span>
-            <md-input-container ng-show="logged">
-                <md-select ng-model="options.types" ng-change="selectOptions()" multiple>
-                    <md-option value="1">
-                        Spaggiari
-                    </md-option>
-                    <md-option value="0">
-                        Altro
-                    </md-option>
-                </md-select>
-            </md-input-container>
         </div>
     </md-toolbar>
     <div layout="row" layout-sm="column" layout-align="center center" ng-show="isLoading" layout-fill>

@@ -72,10 +72,10 @@ app
             $http(req)
                 .then(
                     function(data) {
-                        console.log(data);
+                        $mdToast.show($mdToast.simple().textContent("Evento inserito correttamente"));
+                        $scope.event = {};
                     },
                     function(err) {
-                        console.log(err);
                         $mdToast.show($mdToast.simple().textContent("Errore di rete: "+ err));
                     }
                 );

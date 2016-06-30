@@ -33,7 +33,7 @@ app
     };
 
 
-  $httpProvider.defaults.cache = false;
+  $httpProvider.defaults.cache = true;
   $httpProvider.defaults.headers.common = {};
   $httpProvider.defaults.headers.post = {};
   $httpProvider.defaults.headers.put = {};

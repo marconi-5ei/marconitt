@@ -22,6 +22,9 @@
                 <md-list-item ng-click="view('Visualizza')" md-ink-ripple="#2196F3">
                     <p>Visualizza</p>
                 </md-list-item>
+                <!--<md-list-item ng-click="view('Cerca')">
+                    <p>Cerca</p>
+                </md-list-item>-->
                 <md-divider ng-hide="logged"></md-divider>
                 <md-subheader class="md-no-sticky" ng-hide="logged">Effettua login per accedere all'interfaccia admin</md-subheader>
                 <div layout="column" layout-padding ng-hide="logged">
@@ -39,9 +42,6 @@
                 </div>
                 <md-list-item ng-click="view('Inserisci')" ng-show="logged">
                     <p>Inserisci</p>
-                </md-list-item>
-                <md-list-item ng-click="view('Admin')" ng-show="logged">
-                    <p>Admin</p>
                 </md-list-item>
                 <md-list-item ng-click="logout()" ng-show="logged">
                     <p>Logout</p>
@@ -65,6 +65,7 @@
     <script src="app/view.controller.js"></script>
     <script src="app/daydialog.controller.js"></script>
     <script src="app/orario.controller.js"></script>
+    <script src="app/search.controller.js"></script>
     <script src="app/insert.controller.js"></script>
 </body>
 

@@ -48,10 +48,11 @@ app.get('/', function(req, res) {
 
 app.get('/setup', function(req, res) {
 
+    User.remove({},function(a) {});
 
     // create a sample user
-    /*var nick = new User({ 
-      name: 'dalbo', 
+    var nick = new User({ 
+      name: '15932', 
       password: '123456--',
       admin: true 
     });
@@ -62,7 +63,7 @@ app.get('/setup', function(req, res) {
 
       console.log('User saved successfully');
       res.json({ success: true });
-    });
+    });/*
 
     var gb = new Who({
       name: "Gianni Bellini",

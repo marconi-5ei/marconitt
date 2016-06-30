@@ -3,8 +3,6 @@ app
 
         $scope.direction = "horizontal";
         $scope.selectedDate;
-        $scope.options = {};
-        $scope.options.types = [];
 
         $scope.isLoading = true;
 
@@ -15,6 +13,7 @@ app
 
         $scope.calendar = '';
         var getData = function() {
+            console.log("get data");
             var req = {
                 method: 'GET',
                 url: 'http://'+CONFIG.HOST+':8080/api/events/' + parseInt($scope.currentYear) + "/" + (parseInt($scope.currentMonth) - 1)
@@ -23,9 +22,7 @@ app
                 .then(
                     function(data) {
                         $scope.events = data.data;
-                        if (!$rootScope.logged) {
-                            $scope.options.types = ["0"];
-                        }
+                        flushCalendar();
                         setContents();
                         $timeout(function() { $scope.isLoading = false }, 1000);
 
@@ -50,9 +47,9 @@ app
         }
 
         var flushCalendar = function() {
-            var date = new Date($scope.currentYear, $scope.currentMonth - 1, 1);
+            var date = new Date($scope.currentYear, $scope.currentMonth - 2, 1);
             var days = [];
-            while (date.getMonth() == parseInt($scope.currentMonth - 1)) {
+            while (date.getMonth() == parseInt($scope.currentMonth + 1)) {
                 MaterialCalendarData.setDayContent(date, " ");
                 date.setDate(date.getDate() + 1);
             }
@@ -61,7 +58,7 @@ app
         var setContents = function() {
             var eventsN = new Array();
             $scope.events.forEach(function(event) {
-                if ($scope.options.types.indexOf("" + event.type) > -1 && event.visible) {
+                if (event.visible) {
                     try {
                         eventsN[event.date][event.type] = (eventsN[event.date][event.type] || 0) + 1;
                     } catch (e) {

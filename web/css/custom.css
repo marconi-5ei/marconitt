@@ -214,3 +214,16 @@ md-chips.md-default-theme .md-chips, md-chips .md-chips {
 .md-toolbar-tools md-input-container:not(.md-input-invalid).md-input-has-value label,.md-toolbar-tools .md-text,.md-toolbar-tools .md-select-placeholder span {
     color: white;
 }
+md-list-item.md-3-line, md-list-item.md-3-line > .md-no-style {
+    border-left: 6px solid rgb(1,87,155);
+    padding-left: 12px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+.borderType1 {
+    border-left: 6px solid red !important;
+}
+
+.dotted_false {
+    border-left-style: dotted !important;
+}
