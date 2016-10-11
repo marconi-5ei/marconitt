@@ -103,10 +103,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://diegodalbosco@bitbucket.org/diegodalbosco/marconitt.git"
+    "url": "git+https://github.com/marconivr/marconitt.git"
   },
-  "author": "",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/diegodalbosco/marconitt#readme",
-  "description": ""
+  "author": "Diego Dal Bosco",
+  "license": "GNU GPLv3",
+  "homepage": "https://github.com/marconivr/marconitt",
+  "description": "Marconi Time Table is a calendar with the aim of joyng data from school time table and online school register in the same place"
 }
